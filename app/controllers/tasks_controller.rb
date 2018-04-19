@@ -1,12 +1,13 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy]
+  before_action :correct_user, only: [:destroy, :show, :edit, :update]
   
   def index
-    @tasks = Task.all.page(params[:page])
+    @tasks = current_user.tasks.all
   end
 
   def show
+   @task = current_user.tasks.find(params[:id])
   end
 
   def new
@@ -27,6 +28,7 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @task = current_user.tasks.find(params[:id])
   end
 
   def update
@@ -60,4 +62,5 @@ class TasksController < ApplicationController
       redirect_to root_url
     end
   end
+  
 end
